@@ -24,8 +24,8 @@ function App() {
   const [tabs, setTabs] = useState([]);
 
   const dire = useBreakpointValue({
-    base: "0deg",
-    lg: "-90deg",
+    base: ["column", "row", "90deg"],
+    lg: ["row", "column", "0deg"],
   });
 
   const get = async () => {
@@ -69,7 +69,7 @@ function App() {
           space="2.5"
           mt="2"
           px="2"
-          direction="row"
+          direction={dire[1]}
           key={`${selectedTab}_${i}`}
         >
           {seatRow.map((col, j) => {
@@ -119,36 +119,34 @@ function App() {
   };
 
   return (
-      <Box safeArea flex="1">
-        <Header />
-        {loader ? (
-          <Text>Loading</Text>
-        ) : (
-          <ScrollView bg={"gray.100"} style={{ transform: [{ rotate: dire }] }}>
-            <React.Fragment>
-              <Box alignItems="center">
-                <Image
-                  source={{ uri: FLIGHT_HEAD_URL }}
-                  size="2xl"
-                  style={{ transform: [{ rotate: "90deg" }] }}
-                  alt=""
-                />
-                {selectedTab && renderSeatList()}
-                <Image
-                  source={{ uri: FLIGHT_TAIL_URL }}
-                  size="2xl"
-                  style={{ transform: [{ rotate: "90deg" }] }}
-                  alt=""
-                />
-              </Box>
-            </React.Fragment>
-          </ScrollView>
-        )}
-        <Box alignItems="center">
-          <Button onPress={() => console.log("hello world")}>Click Me</Button>
-        </Box>
+    <Box safeArea flex="1">
+      <Header />
+      {loader ? (
+        <Text>Loading</Text>
+      ) : (
+        <ScrollView bg={"gray.100"}>
+            <VStack direction={dire[0]} alignItems="center">
+              <Image
+                source={{ uri: FLIGHT_HEAD_URL }}
+                size="2xl"
+                style={{ transform: [{ rotate: dire[2] }] }}
+                alt=""
+              />
+              {selectedTab && renderSeatList()}
+              <Image
+                source={{ uri: FLIGHT_TAIL_URL }}
+                size="2xl"
+                style={{ transform: [{ rotate: dire[2] }] }}
+                alt=""
+              />
+            </VStack>
+        </ScrollView>
+      )}
+      <Box alignItems="center">
+        <Button onPress={() => console.log("hello world")}>Click Me</Button>
       </Box>
+    </Box>
   );
 }
-// style={ {transform:[{ rotate: '90deg'}]}}
+
 export default App;
