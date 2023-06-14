@@ -1,127 +1,135 @@
-
 import {
   Text,
   VStack,
   ScrollView,
   NativeBaseProvider,
   Box,
-  Button
+  Button,
+  Image,
+  Pressable,
 } from "native-base";
 import Seat from "./component/seat";
 import Header from "./component/header";
-import { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import getAncelleryData from "./service";
+import { FLIGHT_HEAD_URL, FLIGHT_TAIL_URL } from "./const";
+
+const DIM = 8;
 
 function App() {
   const [seats, setSeats] = useState({});
+  const [loader, setLoader] = useState(true);
+  const [ancellery, setAncellery] = useState({});
+  const [selectedTab, setSelectedTab] = useState(null);
+  const [tabs, setTabs] = useState([]);
 
-  const changeSeat = (id, row) => {
-    console.log('id',id,row)
-    const key = `${id}_${row}`;
+  const get = async () => {
+    const d = await getAncelleryData();
+
+    let parentObj = {};
+    let data = d.seatMapInfoSOA.smSeg;
+
+    Object.keys(data).map((val, i) => {
+      parentObj[val] = {
+        seatMapData: data[val].cLyt.deckMap.MAIN,
+        priceBucketList: data[val].pbl,
+        flightDetail: data[val].fDtl,
+      };
+    });
+    const tabList = Object.keys(parentObj);
+    setLoader(false);
+    setAncellery(parentObj);
+    setTabs(tabList);
+    setSelectedTab(tabList[2]);
+  };
+
+  useEffect(() => {
+    get();
+  }, []);
+
+  const changeSeat = (segment, i, j) => {
+    const key = `${segment}_${i}_${j}`;
     setSeats({
       ...seats,
       [key]: !seats[key],
     });
   };
-  const renderFlighSeatHeading = (no) => {
-    return (
-      <VStack space="2" mt="1" px="1" direction="row" key={no}>
-        <Text color={"orange.800"} w="5"></Text>
-        <Text color={"orange.800"} w="12">
-          A
-        </Text>
-        <Text color={"orange.800"} w="12">
-          B
-        </Text>
-        <Text color={"orange.800"} w="12">
-          C
-        </Text>
 
-        <Seat price="0" type="b" />
-        <Text color={"orange.800"} w="12">
-          D
-        </Text>
-        <Text color={"orange.800"} w="12">
-          E
-        </Text>
-        <Text color={"orange.800"} w="12">
-          F
-        </Text>
-      </VStack>
-    );
-  };
-  const renderFlighSeatRow = (no) => {
-    return (
-      <VStack space="2" mt="1" px="1" direction="row" key={no}>
-        <Text color={"orange.800"} w="5">
-          {no}
-        </Text>
-        <Seat
-          price="500"
-          id={1}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`1_${no}`]}
-        />
-        <Seat
-          price="200"
-          id={2}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`2_${no}`]}
-        />
-        <Seat
-          price="100"
-          id={3}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`3_${no}`]}
-        />
-        <Seat price="0" type="b" />
-        <Seat
-          price="100"
-          id={4}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`4_${no}`]}
-        />
-        <Seat
-          price="300"
-          id={5}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`5_${no}`]}
-        />
-        <Seat
-          price="500"
-          id={6}
-          row={no}
-          changeSeat={changeSeat}
-          selected={seats[`6_${no}`]}
-        />
-      </VStack>
-    );
-  };
+  const renderSeatList = () => {
+    const { priceBucketList } = ancellery[selectedTab];
+    return ancellery[selectedTab].seatMapData.sm.map((seatRow, i) => {
+      return (
+        <VStack
+          space="2.5"
+          mt="4"
+          px="8"
+          direction="row"
+          space={4}
+          key={`${selectedTab}_${i}`}
+        >
+          {seatRow.map((col, j) => {
+            switch (col.ct) {
+              case "LABEL":
+                return (
+                  <Box w={DIM} h={DIM}>
+                    {col.lbl}
+                  </Box>
+                );
+              case "SEAT":
+                return (
+                  <Pressable  onPress={() => changeSeat(selectedTab, i, j)}>
+                  <Box
+                    bg={
+                      seats[`${selectedTab}_${i}_${j}`]
+                        ? ["green.400"]
+                        : [priceBucketList[col.pbIdx].cc]
+                    }
+                    w={DIM}
+                    h={DIM}
+                   
+                  ></Box>
+                  </Pressable>
+                );
+              case "EMPTY":
+                return <Box w={DIM} h={DIM}></Box>;
+              case "ICON":
+                return (
+                  <Box w={DIM} h={DIM}>
+                    Icon
+                  </Box>
+                );
 
-  const renderFlightSeat = (n) => {
-    let output = Array(n);
-    for (let i = 0; i < n; i++) {
-      output[i] = renderFlighSeatRow(i + 1);
-    }
-    return output;
+              default:
+                return <div></div>;
+            }
+          })}
+        </VStack>
+      );
+    });
   };
 
   return (
     <NativeBaseProvider>
+      
       <Header />
-      <ScrollView flex={1}>
-        {renderFlighSeatHeading()}
-        {renderFlightSeat(30)}
-      </ScrollView>
-      <Box alignItems="center">
-      <Button onPress={() => console.log("hello world")}>Click Me</Button>
-    </Box>
+      <Box bg={"gray.100"} m="10">
+      {loader ? (
+        <Text>Loading</Text>
+      ) : (
+        <React.Fragment>
+          <ScrollView flex={1} direction="column" bg={"white"}>
+            <Image source={{ uri: FLIGHT_HEAD_URL }} size="2xl" style={ {transform:[{ rotate: '90deg'}]}} />
+            {selectedTab && renderSeatList()}
+            <Image source={{ uri: FLIGHT_TAIL_URL }} size="2xl" style={ {transform:[{ rotate: '90deg'}]}} />
+          </ScrollView>
+          <Box alignItems="center">
+            <Button onPress={() => console.log("hello world")}>Click Me</Button>
+          </Box>
+        </React.Fragment>
+      )}
+      </Box>
     </NativeBaseProvider>
   );
 }
-
+// style={ {transform:[{ rotate: '90deg'}]}}
 export default App;
