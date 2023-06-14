@@ -57,50 +57,55 @@ function App() {
 
   const renderSeatList = () => {
     const { priceBucketList } = ancellery[selectedTab];
+
     return ancellery[selectedTab].seatMapData.sm.map((seatRow, i) => {
       return (
         <VStack
           space="2.5"
-          mt="4"
-          px="8"
+          mt="2"
+          px="2"
           direction="row"
-          space={4}
           key={`${selectedTab}_${i}`}
         >
           {seatRow.map((col, j) => {
             switch (col.ct) {
               case "LABEL":
                 return (
-                  <Box w={DIM} h={DIM}>
-                    {col.lbl}
+                  <Box w={DIM} h={DIM} key={`${selectedTab}_${i}_${j}`}>
+                    <Text>{col.lbl}</Text>
                   </Box>
                 );
               case "SEAT":
                 return (
-                  <Pressable  onPress={() => changeSeat(selectedTab, i, j)}>
-                  <Box
-                    bg={
-                      seats[`${selectedTab}_${i}_${j}`]
-                        ? ["green.400"]
-                        : [priceBucketList[col.pbIdx].cc]
-                    }
-                    w={DIM}
-                    h={DIM}
-                   
-                  ></Box>
+                  <Pressable
+                    key={`${selectedTab}_${i}_${j}`}
+                    onPress={() => changeSeat(selectedTab, i, j)}
+                  >
+                    <Box
+                      bg={
+                        seats[`${selectedTab}_${i}_${j}`]
+                          ? ["green.400"]
+                          : [priceBucketList[col.pbIdx].cc]
+                      }
+                      w={DIM}
+                      h={DIM}
+                    ></Box>
                   </Pressable>
                 );
               case "EMPTY":
-                return <Box w={DIM} h={DIM}></Box>;
+                return (
+                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM}></Box>
+                );
               case "ICON":
                 return (
-                  <Box w={DIM} h={DIM}>
-                    Icon
+                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM}>
+                    <Text>Icon</Text>
                   </Box>
                 );
-
               default:
-                return <div></div>;
+                return (
+                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM} r></Box>
+                );
             }
           })}
         </VStack>
@@ -110,23 +115,34 @@ function App() {
 
   return (
     <NativeBaseProvider>
-      
-      <Header />
-      <Box bg={"gray.100"} m="10">
-      {loader ? (
-        <Text>Loading</Text>
-      ) : (
-        <React.Fragment>
-          <ScrollView flex={1} direction="column" bg={"white"}>
-            <Image source={{ uri: FLIGHT_HEAD_URL }} size="2xl" style={ {transform:[{ rotate: '90deg'}]}} />
-            {selectedTab && renderSeatList()}
-            <Image source={{ uri: FLIGHT_TAIL_URL }} size="2xl" style={ {transform:[{ rotate: '90deg'}]}} />
-          </ScrollView>
-          <Box alignItems="center">
-            <Button onPress={() => console.log("hello world")}>Click Me</Button>
-          </Box>
-        </React.Fragment>
-      )}
+      <Box safeArea flex="1">
+        <Header />
+        <ScrollView bg={"gray.100"}>
+          {loader ? (
+            <Text>Loading</Text>
+          ) : (
+            <React.Fragment>
+              <Box alignItems="center">
+                <Image
+                  source={{ uri: FLIGHT_HEAD_URL }}
+                  size="2xl"
+                  style={{ transform: [{ rotate: "90deg" }] }}
+                  alt=""
+                />
+                {selectedTab && renderSeatList()}
+                <Image
+                  source={{ uri: FLIGHT_TAIL_URL }}
+                  size="2xl"
+                  style={{ transform: [{ rotate: "90deg" }] }}
+                  alt=""
+                />
+              </Box>
+            </React.Fragment>
+          )}
+        </ScrollView>
+        <Box alignItems="center">
+          <Button onPress={() => console.log("hello world")}>Click Me</Button>
+        </Box>
       </Box>
     </NativeBaseProvider>
   );
