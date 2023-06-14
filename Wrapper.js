@@ -8,7 +8,7 @@ import {
   Image,
   Pressable,
   useBreakpointValue,
-  PlayIcon
+  PlayIcon,
 } from "native-base";
 
 import Header from "./component/header";
@@ -126,23 +126,38 @@ function App() {
       {loader ? (
         <Text>Loading</Text>
       ) : (
-        <ScrollView bg={"gray.100"} w="100%" horizontal={dire[3]}>
-          <Stack direction={dire[0]} alignItems="center">
-            <Image
-              source={{ uri: FLIGHT_HEAD_URL }}
-              size="2xl"
-              style={{ transform: [{ rotate: dire[2] }] }}
-              alt=""
-            />
-            {selectedTab && renderSeatList()}
-            <Image
-              source={{ uri: FLIGHT_TAIL_URL }}
-              size="2xl"
-              style={{ transform: [{ rotate: dire[2] }] }}
-              alt=""
-            />
-          </Stack>
-        </ScrollView>
+        <React.Fragment>
+          <ScrollView bg={"gray.100"} w="100%" horizontal={true}>
+            {tabs.map((t) => (
+              <Box key={t} m="2" p="4" bg="yellow.500">
+                <Pressable
+                  onPress={() => {
+                    setSelectedTab(t);
+                  }}
+                >
+                  <Text>{t}</Text>
+                </Pressable>
+              </Box>
+            ))}
+          </ScrollView>
+          <ScrollView bg={"gray.100"} w="100%" horizontal={dire[3]}>
+            <Stack direction={dire[0]} alignItems="center">
+              <Image
+                source={{ uri: FLIGHT_HEAD_URL }}
+                size="2xl"
+                style={{ transform: [{ rotate: dire[2] }] }}
+                alt=""
+              />
+              {selectedTab && renderSeatList()}
+              <Image
+                source={{ uri: FLIGHT_TAIL_URL }}
+                size="2xl"
+                style={{ transform: [{ rotate: dire[2] }] }}
+                alt=""
+              />
+            </Stack>
+          </ScrollView>
+        </React.Fragment>
       )}
       <Box alignItems="center">
         <Button
