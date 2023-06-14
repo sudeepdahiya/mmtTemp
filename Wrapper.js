@@ -129,13 +129,13 @@ function App() {
         <React.Fragment>
           <ScrollView bg={"gray.100"} w="100%" horizontal={true}>
             {tabs.map((t) => (
-              <Box key={t} m="2" p="4" bg="yellow.500">
+              <Box key={t} bg={selectedTab === t ? "yellow.500":"emerald.400"} m="2">
                 <Pressable
                   onPress={() => {
                     setSelectedTab(t);
                   }}
                 >
-                  <Text>{t}</Text>
+                  <Text p="4" h="20">{t}</Text>
                 </Pressable>
               </Box>
             ))}
