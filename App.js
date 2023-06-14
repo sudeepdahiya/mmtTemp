@@ -7,10 +7,10 @@ import {
   Button,
   Image,
   Pressable,
+  useBreakpointValue,
 } from "native-base";
-import Seat from "./component/seat";
 import Header from "./component/header";
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import getAncelleryData from "./service";
 import { FLIGHT_HEAD_URL, FLIGHT_TAIL_URL } from "./const";
 
@@ -22,6 +22,11 @@ function App() {
   const [ancellery, setAncellery] = useState({});
   const [selectedTab, setSelectedTab] = useState(null);
   const [tabs, setTabs] = useState([]);
+
+  const dire = useBreakpointValue({
+    base: "0deg",
+    lg: "-90deg",
+  });
 
   const get = async () => {
     const d = await getAncelleryData();
@@ -117,10 +122,10 @@ function App() {
     <NativeBaseProvider>
       <Box safeArea flex="1">
         <Header />
-        <ScrollView bg={"gray.100"}>
-          {loader ? (
-            <Text>Loading</Text>
-          ) : (
+        {loader ? (
+          <Text>Loading</Text>
+        ) : (
+          <ScrollView bg={"gray.100"} style={{ transform: [{ rotate: dire }] }}>
             <React.Fragment>
               <Box alignItems="center">
                 <Image
@@ -138,8 +143,8 @@ function App() {
                 />
               </Box>
             </React.Fragment>
-          )}
-        </ScrollView>
+          </ScrollView>
+        )}
         <Box alignItems="center">
           <Button onPress={() => console.log("hello world")}>Click Me</Button>
         </Box>
