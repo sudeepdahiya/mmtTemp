@@ -1,14 +1,16 @@
 import {
   Text,
   VStack,
+  Stack,
   ScrollView,
-  NativeBaseProvider,
   Box,
   Button,
   Image,
   Pressable,
   useBreakpointValue,
+  PlayIcon
 } from "native-base";
+
 import Header from "./component/header";
 import React, { useState, useEffect } from "react";
 import getAncelleryData from "./service";
@@ -24,8 +26,8 @@ function App() {
   const [tabs, setTabs] = useState([]);
 
   const dire = useBreakpointValue({
-    base: ["column", "row", "90deg"],
-    lg: ["row", "column", "0deg"],
+    base: ["column", "row", "90deg", false],
+    lg: ["row", "column", "0deg", true],
   });
 
   const get = async () => {
@@ -104,7 +106,7 @@ function App() {
               case "ICON":
                 return (
                   <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM}>
-                    <Text>Icon</Text>
+                    <PlayIcon />
                   </Box>
                 );
               default:
@@ -124,26 +126,33 @@ function App() {
       {loader ? (
         <Text>Loading</Text>
       ) : (
-        <ScrollView bg={"gray.100"}>
-            <VStack direction={dire[0]} alignItems="center">
-              <Image
-                source={{ uri: FLIGHT_HEAD_URL }}
-                size="2xl"
-                style={{ transform: [{ rotate: dire[2] }] }}
-                alt=""
-              />
-              {selectedTab && renderSeatList()}
-              <Image
-                source={{ uri: FLIGHT_TAIL_URL }}
-                size="2xl"
-                style={{ transform: [{ rotate: dire[2] }] }}
-                alt=""
-              />
-            </VStack>
+        <ScrollView bg={"gray.100"} w="100%" horizontal={dire[3]}>
+          <Stack direction={dire[0]} alignItems="center">
+            <Image
+              source={{ uri: FLIGHT_HEAD_URL }}
+              size="2xl"
+              style={{ transform: [{ rotate: dire[2] }] }}
+              alt=""
+            />
+            {selectedTab && renderSeatList()}
+            <Image
+              source={{ uri: FLIGHT_TAIL_URL }}
+              size="2xl"
+              style={{ transform: [{ rotate: dire[2] }] }}
+              alt=""
+            />
+          </Stack>
         </ScrollView>
       )}
       <Box alignItems="center">
-        <Button onPress={() => console.log("hello world")}>Click Me</Button>
+        <Button
+          onPress={() => console.log("hello world")}
+          p={[2, 5]}
+          m={[5, 10]}
+          w={[24, 48, 72]}
+        >
+          Click Me
+        </Button>
       </Box>
     </Box>
   );
