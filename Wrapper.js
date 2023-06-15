@@ -161,7 +161,6 @@ function App() {
       )}
       <Box alignItems="center">
         <Button
-          onPress={() => console.log("hello world")}
           p={[2, 5]}
           m={[5, 10]}
           w={[24, 48, 72]}
