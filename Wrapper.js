@@ -7,7 +7,6 @@ import {
   Image,
   Pressable,
   useBreakpointValue,
-  FlatList,
 } from "native-base";
 
 import Header from "./component/header";
@@ -23,8 +22,8 @@ function App() {
   const [tabs, setTabs] = useState([]);
 
   const dire = useBreakpointValue({
-    base: ["column", "row", "90deg", false],
-    lg: ["row", "column", "0deg", true],
+    base: ["column", "row", "90deg", false, false],
+    lg: ["row", "column", "0deg", true, true],
   });
 
   const get = async () => {
@@ -60,24 +59,20 @@ function App() {
     ancellery[segment] = { ...ancellery[segment] };
     setAncellery(ancellery);
   };
+  
   const renderSeatList = () => {
     const { priceBucketList } = ancellery[selectedTab];
-
-    return (
-      <FlatList
-        data={ancellery[selectedTab].seatMapData.sm}
-        renderItem={({ item: seatRow, index }) => (
-          <SeatRow
-            selectedTab={selectedTab}
-            seatRow={seatRow}
-            changeSeat={changeSeat}
-            priceBucketList={priceBucketList}
-            dire={dire}
-            i={index}
-          />
-        )}
+    return ancellery[selectedTab].seatMapData.sm.map((seatRow, index) => (
+      <SeatRow
+        selectedTab={selectedTab}
+        seatRow={seatRow}
+        changeSeat={changeSeat}
+        priceBucketList={priceBucketList}
+        dire={dire}
+        i={index}
+        key={index}
       />
-    );
+    ))
   };
 
   return (
@@ -106,7 +101,7 @@ function App() {
               </Box>
             ))}
           </ScrollView>
-          <ScrollView bg={"gray.100"} w="100%" horizontal={dire[3]}>
+          <ScrollView bg={"gray.100"} horizontal={dire[4]}>
             <Stack direction={dire[0]} alignItems="center">
               <Image
                 source={{ uri: FLIGHT_HEAD_URL }}
