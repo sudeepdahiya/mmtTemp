@@ -1,6 +1,5 @@
 import {
   Text,
-  VStack,
   Stack,
   ScrollView,
   Box,
@@ -8,18 +7,16 @@ import {
   Image,
   Pressable,
   useBreakpointValue,
-  PlayIcon,
+  FlatList,
 } from "native-base";
 
 import Header from "./component/header";
 import React, { useState, useEffect } from "react";
 import getAncelleryData from "./service";
 import { FLIGHT_HEAD_URL, FLIGHT_TAIL_URL } from "./const";
-
-const DIM = 8;
+import SeatRow from "./SeatRow";
 
 function App() {
-  const [seats, setSeats] = useState({});
   const [loader, setLoader] = useState(true);
   const [ancellery, setAncellery] = useState({});
   const [selectedTab, setSelectedTab] = useState(null);
@@ -55,69 +52,32 @@ function App() {
   }, []);
 
   const changeSeat = (segment, i, j) => {
-    const key = `${segment}_${i}_${j}`;
-    setSeats({
-      ...seats,
-      [key]: !seats[key],
-    });
+    if (ancellery[segment].seatMapData.sm[i][j].isActive) {
+      ancellery[segment].seatMapData.sm[i][j].isActive = false;
+    } else {
+      ancellery[segment].seatMapData.sm[i][j].isActive = true;
+    }
+    ancellery[segment] = { ...ancellery[segment] };
+    setAncellery(ancellery);
   };
-
   const renderSeatList = () => {
     const { priceBucketList } = ancellery[selectedTab];
 
-    return ancellery[selectedTab].seatMapData.sm.map((seatRow, i) => {
-      return (
-        <VStack
-          space="2.5"
-          mt="2"
-          px="2"
-          direction={dire[1]}
-          key={`${selectedTab}_${i}`}
-        >
-          {seatRow.map((col, j) => {
-            switch (col.ct) {
-              case "LABEL":
-                return (
-                  <Box w={DIM} h={DIM} key={`${selectedTab}_${i}_${j}`}>
-                    <Text>{col.lbl}</Text>
-                  </Box>
-                );
-              case "SEAT":
-                return (
-                  <Pressable
-                    key={`${selectedTab}_${i}_${j}`}
-                    onPress={() => changeSeat(selectedTab, i, j)}
-                  >
-                    <Box
-                      bg={
-                        seats[`${selectedTab}_${i}_${j}`]
-                          ? ["green.400"]
-                          : [priceBucketList[col.pbIdx].cc]
-                      }
-                      w={DIM}
-                      h={DIM}
-                    ></Box>
-                  </Pressable>
-                );
-              case "EMPTY":
-                return (
-                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM}></Box>
-                );
-              case "ICON":
-                return (
-                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM}>
-                    <PlayIcon />
-                  </Box>
-                );
-              default:
-                return (
-                  <Box key={`${selectedTab}_${i}_${j}`} w={DIM} h={DIM} r></Box>
-                );
-            }
-          })}
-        </VStack>
-      );
-    });
+    return (
+      <FlatList
+        data={ancellery[selectedTab].seatMapData.sm}
+        renderItem={({ item: seatRow, index }) => (
+          <SeatRow
+            selectedTab={selectedTab}
+            seatRow={seatRow}
+            changeSeat={changeSeat}
+            priceBucketList={priceBucketList}
+            dire={dire}
+            i={index}
+          />
+        )}
+      />
+    );
   };
 
   return (
@@ -129,13 +89,19 @@ function App() {
         <React.Fragment>
           <ScrollView bg={"gray.100"} w="100%" horizontal={true}>
             {tabs.map((t) => (
-              <Box key={t} bg={selectedTab === t ? "yellow.500":"emerald.400"} m="2">
+              <Box
+                key={t}
+                bg={selectedTab === t ? "yellow.500" : "emerald.400"}
+                m="2"
+              >
                 <Pressable
                   onPress={() => {
                     setSelectedTab(t);
                   }}
                 >
-                  <Text p="4" h="20">{t}</Text>
+                  <Text p="4" h="20">
+                    {t}
+                  </Text>
                 </Pressable>
               </Box>
             ))}
@@ -164,6 +130,9 @@ function App() {
           p={[2, 5]}
           m={[5, 10]}
           w={[24, 48, 72]}
+          onPress={() => {
+            alert("hi");
+          }}
         >
           Click Me
         </Button>

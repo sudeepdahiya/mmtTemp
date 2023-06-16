@@ -8,18 +8,18 @@ import {
 import Wrapper from './Wrapper';
 
 const AFFILIATES = {
-  MMT: {
-    components: {
-      Button: {
-        baseStyle: {
-          rounded: 'lg',
-        },
-        defaultProps: {
-          colorScheme: 'blue',
-        },
-      },
-    },
-  },
+  // MMT: {
+  //   components: {
+  //     Button: {
+  //       baseStyle: {
+  //         rounded: 'lg',
+  //       },
+  //       defaultProps: {
+  //         colorScheme: 'blue',
+  //       },
+  //     },
+  //   },
+  // },
   GI: {
     components: {
       Button: {
@@ -38,7 +38,6 @@ const AFFILIATES = {
 function App(props) {
   const {aff = 'MMT'} = props;
   const theme = extendTheme(AFFILIATES[aff]);
-  console.log(theme, AFFILIATES[aff])
   return (
     <NativeBaseProvider theme={theme}>
       <Wrapper />
