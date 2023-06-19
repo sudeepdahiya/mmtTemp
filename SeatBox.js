@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 
 import { Text, Box, Pressable, PlayIcon, Button } from "native-base";
 
@@ -6,7 +6,7 @@ const DIM = 8;
 
 const SeatBox = (props) => {
   const { col, changeSeat, selectedTab, i, j, priceBucketList } = props;
-  const [state, setState] = useState(false)
+  const [state, setState] = useState(false);
   switch (col.ct) {
     case "LABEL":
       return (
@@ -20,7 +20,9 @@ const SeatBox = (props) => {
           bg={state ? ["green.400"] : [priceBucketList[col.pbIdx].cc]}
           w={DIM}
           h={DIM}
-          onPress={() => setState(!state)}
+          onPress={() => {
+            setState(!state);
+          }}
         ></Button>
       );
     case "EMPTY":

@@ -8,6 +8,7 @@ import SeatBox from "./SeatBox";
 function SeatRow(props) {
   const { selectedTab, i, seatRow, changeSeat, priceBucketList, dire } =
     props;
+    //console.log('row', i)
   return (
     <VStack
       space="2.5"
@@ -33,4 +34,4 @@ function SeatRow(props) {
   );
 }
 
-export default React.memo(SeatRow);
+export default SeatRow;

@@ -51,13 +51,13 @@ function App() {
   }, []);
 
   const changeSeat = (segment, i, j) => {
+    
     if (ancellery[segment].seatMapData.sm[i][j].isActive) {
       ancellery[segment].seatMapData.sm[i][j].isActive = false;
     } else {
       ancellery[segment].seatMapData.sm[i][j].isActive = true;
     }
-    ancellery[segment] = { ...ancellery[segment] };
-    setAncellery(ancellery);
+    setAncellery({...ancellery});
   };
   
   const renderSeatList = () => {
