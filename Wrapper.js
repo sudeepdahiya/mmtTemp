@@ -16,9 +16,9 @@ import React, { useState, useEffect } from "react";
 import getAncelleryData from "./service";
 import { FLIGHT_HEAD_URL, FLIGHT_TAIL_URL } from "./const";
 import SeatRow from "./SeatRow";
-import Stagger from './component/stagger'
+import Stagger from "./component/stagger";
 
-function App({setModalVisible}) {
+function App({ setModalVisible }) {
   const [loader, setLoader] = useState(true);
   const [ancellery, setAncellery] = useState({});
   const [selectedTab, setSelectedTab] = useState(null);
@@ -52,7 +52,7 @@ function App({setModalVisible}) {
   useEffect(() => {
     get();
   }, []);
-  console.log('i m called ', new Date())
+  console.log("i m called ", new Date());
   const changeSeat = (segment, i, j) => {
     if (ancellery[segment].seatMapData.sm[i][j].isActive) {
       ancellery[segment].seatMapData.sm[i][j].isActive = false;
@@ -79,7 +79,7 @@ function App({setModalVisible}) {
 
   return (
     <React.Fragment>
-      <VStack safeArea flex={"1"} h="100vh">
+      <VStack safeArea flex={"1"}>
         <Header />
         {loader ? (
           <Box flex="1">
@@ -131,29 +131,21 @@ function App({setModalVisible}) {
             </ScrollView>
           </React.Fragment>
         )}
-        <HStack
-          alignItems="center"
-          position={"fixed"}
-          w="full"
-          bottom={0}
-          bg="green.50"
-        >
+        <HStack position={"fixed"} bottom={0} bg="green.50">
+          <Box flex={1}></Box>
           <Button
             p={[2, 5]}
             m={[5, 10]}
-            w={[24, 48, 72]}
+            size="md"
             onPress={() => {
               setModalVisible(true);
             }}
-            flex="1"
           >
-            Click Me
+            Click Me!
           </Button>
           <Stagger />
         </HStack>
-       
       </VStack>
-    
     </React.Fragment>
   );
 }

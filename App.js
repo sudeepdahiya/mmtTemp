@@ -8,18 +8,6 @@ import {
 import Wrapper from './ParentWrapper';
 
 const AFFILIATES = {
-  // MMT: {
-  //   components: {
-  //     Button: {
-  //       baseStyle: {
-  //         rounded: 'lg',
-  //       },
-  //       defaultProps: {
-  //         colorScheme: 'blue',
-  //       },
-  //     },
-  //   },
-  // },
   GI: {
     components: {
       Button: {

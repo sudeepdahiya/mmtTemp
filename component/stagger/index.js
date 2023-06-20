@@ -55,6 +55,7 @@ const Example = () => {
               }}
               h="20"
               w="20"
+              alt=""
             />
           </Box>
           <Box bg="white" borderRadius={"full"}>
@@ -64,6 +65,7 @@ const Example = () => {
               }}
               h="20"
               w="20"
+              alt=""
             />
           </Box>
         </Stagger>
@@ -77,6 +79,7 @@ const Example = () => {
               }}
               h="20"
               w="20"
+              alt=""
             />
           </Box>
         </Pressable>
