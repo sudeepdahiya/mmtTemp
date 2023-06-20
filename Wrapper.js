@@ -8,6 +8,7 @@ import {
   Image,
   Pressable,
   useBreakpointValue,
+  HStack,
 } from "native-base";
 
 import Header from "./component/header";
@@ -15,6 +16,7 @@ import React, { useState, useEffect } from "react";
 import getAncelleryData from "./service";
 import { FLIGHT_HEAD_URL, FLIGHT_TAIL_URL } from "./const";
 import SeatRow from "./SeatRow";
+import Stagger from './component/stagger'
 
 function App({setModalVisible}) {
   const [loader, setLoader] = useState(true);
@@ -129,7 +131,7 @@ function App({setModalVisible}) {
             </ScrollView>
           </React.Fragment>
         )}
-        <Box
+        <HStack
           alignItems="center"
           position={"fixed"}
           w="full"
@@ -143,11 +145,15 @@ function App({setModalVisible}) {
             onPress={() => {
               setModalVisible(true);
             }}
+            flex="1"
           >
             Click Me
           </Button>
-        </Box>
+          <Stagger />
+        </HStack>
+       
       </VStack>
+    
     </React.Fragment>
   );
 }

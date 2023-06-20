@@ -1,6 +1,7 @@
 import { Text, ScrollView, Button, Modal, Stack } from "native-base";
 import React, { useState } from "react";
 import Wrapper from "./Wrapper";
+import Stagger from './component/stagger'
 
 const size = ["sm", "md", "lg", "xl"];
 
@@ -16,7 +17,7 @@ function App() {
           isOpen={modalVisible}
           onClose={setModalVisible}
           size={size}
-          m="1/6"
+          m={["1","1/6"]}
         >
           <Modal.Content maxH="312">
             <Modal.CloseButton />
@@ -54,7 +55,9 @@ function App() {
             </Modal.Footer>
           </Modal.Content>
         </Modal>
+        
       </Stack>
+      
     </React.Fragment>
   );
 }
