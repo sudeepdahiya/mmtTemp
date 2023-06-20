@@ -46,7 +46,7 @@ function App({ setModalVisible }) {
     setLoader(false);
     setAncellery(parentObj);
     setTabs(tabList);
-    setSelectedTab(tabList[2]);
+    setSelectedTab(tabList[0]);
   };
 
   useEffect(() => {
@@ -107,11 +107,11 @@ function App({ setModalVisible }) {
               ))}
             </ScrollView>
             <ScrollView
-              bg={"gray.100"}
               horizontal={dire[4]}
               borderStyle={"solid"}
               borderColor={"coolGray.600"}
               bg="gray.100"
+              height="full"
             >
               <Stack direction={dire[0]} alignItems="center">
                 <Image
@@ -131,7 +131,7 @@ function App({ setModalVisible }) {
             </ScrollView>
           </React.Fragment>
         )}
-        <HStack position={"fixed"} bottom={0} bg="green.50">
+        <HStack position={"fixed"} bottom={0} bg="green.50" w="full">
           <Box flex={1}></Box>
           <Button
             p={[2, 5]}
