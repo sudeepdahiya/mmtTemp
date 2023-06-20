@@ -5,7 +5,7 @@ import {
 
 } from "native-base";
 
-import Wrapper from './Wrapper';
+import Wrapper from './ParentWrapper';
 
 const AFFILIATES = {
   // MMT: {
