@@ -1,5 +1,6 @@
 import {
   Text,
+  VStack,
   Stack,
   ScrollView,
   Box,
@@ -51,15 +52,14 @@ function App() {
   }, []);
 
   const changeSeat = (segment, i, j) => {
-    
     if (ancellery[segment].seatMapData.sm[i][j].isActive) {
       ancellery[segment].seatMapData.sm[i][j].isActive = false;
     } else {
       ancellery[segment].seatMapData.sm[i][j].isActive = true;
     }
-    setAncellery({...ancellery});
+    setAncellery({ ...ancellery });
   };
-  
+
   const renderSeatList = () => {
     const { priceBucketList } = ancellery[selectedTab];
     return ancellery[selectedTab].seatMapData.sm.map((seatRow, index) => (
@@ -72,11 +72,11 @@ function App() {
         i={index}
         key={index}
       />
-    ))
+    ));
   };
 
   return (
-    <Box safeArea flex="1">
+    <VStack safeArea flex={"1"} h="100vh">
       <Header />
       {loader ? (
         <Text>Loading</Text>
@@ -88,20 +88,26 @@ function App() {
                 key={t}
                 bg={selectedTab === t ? "yellow.500" : "emerald.400"}
                 m="2"
+                h="12"
               >
                 <Pressable
                   onPress={() => {
                     setSelectedTab(t);
                   }}
+                  p="4"
                 >
-                  <Text p="4" h="20">
-                    {t}
-                  </Text>
+                  <Text>{t}</Text>
                 </Pressable>
               </Box>
             ))}
           </ScrollView>
-          <ScrollView bg={"gray.100"} horizontal={dire[4]}>
+          <ScrollView
+            bg={"gray.100"}
+            horizontal={dire[4]}
+            borderStyle={"solid"}
+            borderColor={"coolGray.600"}
+            bg="white"
+          >
             <Stack direction={dire[0]} alignItems="center">
               <Image
                 source={{ uri: FLIGHT_HEAD_URL }}
@@ -120,7 +126,14 @@ function App() {
           </ScrollView>
         </React.Fragment>
       )}
-      <Box alignItems="center">
+      <Box
+        alignItems="center"
+        position={"fixed"}
+        bg="white"
+        w="full"
+        bottom={0}
+        bg="green.50"
+      >
         <Button
           p={[2, 5]}
           m={[5, 10]}
@@ -132,7 +145,7 @@ function App() {
           Click Me
         </Button>
       </Box>
-    </Box>
+    </VStack>
   );
 }
 

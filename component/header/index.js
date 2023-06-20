@@ -1,30 +1,22 @@
-import {
-  Box,
-  Image,
-  Text,
-  Link,
-  HStack,
-  Heading,
-  Switch,
-  useColorMode,
-  VStack,
-  Stack,
-} from "native-base";
+import { Box, Text, Heading, HStack } from "native-base";
 
 const Header = (props) => {
   return (
-    <Box>
-      <VStack space={4} alignItems="center">
-        <Stack direction="row" alignItems="center" w="100%" h="10" bg="indigo.300" shadow={3}>
-          <Box>
-            <Text> {"<-"} </Text>
-          </Box>
-          <Box>
-            <Text> this is header </Text>
-          </Box>
-        </Stack>
-      </VStack>
-    </Box>
+    <HStack
+      h="10"
+      bg="indigo.300"
+      shadow={3}
+      w="full"
+      // position="fixed"
+      // zIndex={1}
+    >
+      <Box>
+        <Text> {"<-"} </Text>
+      </Box>
+      <Box>
+        <Heading> this is header </Heading>
+      </Box>
+    </HStack>
   );
 };
 
