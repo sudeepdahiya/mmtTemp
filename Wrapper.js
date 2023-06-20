@@ -42,6 +42,8 @@ function App({ setModalVisible }) {
         flightDetail: data[val].fDtl,
       };
     });
+
+    d.seatMapInfoSOA.smSeg
     const tabList = Object.keys(parentObj);
     setLoader(false);
     setAncellery(parentObj);
@@ -77,6 +79,11 @@ function App({ setModalVisible }) {
     ));
   };
 
+  const renderHeader = (segId) => {
+    const {fr, to, opAr} = ancellery[segId].flightDetail
+    return `${fr} - ${to} (${opAr})`
+  }
+
   return (
     <React.Fragment>
       <VStack safeArea flex={"1"}>
@@ -95,23 +102,24 @@ function App({ setModalVisible }) {
                   m="2"
                   h="12"
                   p="3"
+                
                 >
                   <Pressable
                     onPress={() => {
                       setSelectedTab(t);
                     }}
                   >
-                    <Text>{t}</Text>
+                    <Text>{renderHeader(t)}</Text>
                   </Pressable>
                 </Box>
               ))}
             </ScrollView>
             <ScrollView
+              bg={"gray.100"}
               horizontal={dire[4]}
               borderStyle={"solid"}
               borderColor={"coolGray.600"}
               bg="gray.100"
-              height="full"
             >
               <Stack direction={dire[0]} alignItems="center">
                 <Image
@@ -131,7 +139,7 @@ function App({ setModalVisible }) {
             </ScrollView>
           </React.Fragment>
         )}
-        <HStack position={"fixed"} bottom={0} bg="green.50" w="full">
+        <HStack position={"fixed"} bottom={0} bg="green.50">
           <Box flex={1}></Box>
           <Button
             p={[2, 5]}
