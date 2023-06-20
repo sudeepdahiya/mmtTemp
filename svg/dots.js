@@ -2,8 +2,9 @@ import React from "react";
 
 const DotIcon = () => {
   return (
+    <React.Fragment>
     <svg
-      fill="#000000"
+      fill="#FFFFFF"
       width="40px"
       height="40px"
       viewBox="0 0 32 32"
@@ -24,6 +25,7 @@ const DotIcon = () => {
         id="XMLID_297_"
       />
     </svg>
+    </React.Fragment>
   );
 };
 

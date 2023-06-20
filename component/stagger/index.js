@@ -1,17 +1,14 @@
 import {
-  
   HStack,
   Icon,
   Box,
   IconButton,
   Stagger,
   useDisclose,
+  Image,
+  Pressable,
 } from "native-base";
 import React from "react";
-
-import FlightIcon from "../../svg/flight";
-import HotelIcon from "../../svg/hotel";
-import DotIcon from "../../svg/dots";
 
 const Example = () => {
   const { isOpen, onToggle } = useDisclose();
@@ -19,7 +16,6 @@ const Example = () => {
     <React.Fragment>
       <Box alignItems="center" position={"absolute"} bottom="100" right={30}>
         <Stagger
-          
           visible={isOpen}
           initial={{
             opacity: 0,
@@ -52,54 +48,38 @@ const Example = () => {
             },
           }}
         >
-          <IconButton
-            mb="4"
-            variant="solid"
-            bg="indigo.500"
-            colorScheme="indigo"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={FlightIcon}
-                size="6"
-                name="location-pin"
-                color="warmGray.50"
-              />
-            }
-          />
-          <IconButton
-            mb="4"
-            variant="solid"
-            bg="yellow.400"
-            colorScheme="yellow"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={HotelIcon}
-                size="6"
-                name="microphone"
-                color="warmGray.50"
-              />
-            }
-          />
+          <Box bg="white" borderRadius={"full"}>
+            <Image
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/512/3125/3125713.png",
+              }}
+              h="20"
+              w="20"
+            />
+          </Box>
+          <Box bg="white" borderRadius={"full"}>
+            <Image
+              source={{
+                uri: "https://static-00.iconduck.com/assets.00/hotel-icon-2048x2010-fehrbwvc.png",
+              }}
+              h="20"
+              w="20"
+            />
+          </Box>
         </Stagger>
       </Box>
       <HStack alignItems="center">
-        <IconButton
-          variant="solid"
-          borderRadius="full"
-          size="lg"
-          onPress={onToggle}
-          bg="cyan.400"
-          icon={
-            <Icon
-              as={DotIcon}
-              size="6"
-              name="dots-horizontal"
-              color="warmGray.50"
+        <Pressable onPress={onToggle}>
+          <Box bg="white" borderRadius={"full"}>
+            <Image
+              source={{
+                uri: "https://cdn.icon-icons.com/icons2/1659/PNG/512/3844442-dot-menu-more-vertical_110310.png",
+              }}
+              h="20"
+              w="20"
             />
-          }
-        />
+          </Box>
+        </Pressable>
       </HStack>
     </React.Fragment>
   );
