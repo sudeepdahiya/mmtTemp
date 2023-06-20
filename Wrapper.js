@@ -43,7 +43,6 @@ function App({ setModalVisible }) {
       };
     });
 
-    d.seatMapInfoSOA.smSeg
     const tabList = Object.keys(parentObj);
     setLoader(false);
     setAncellery(parentObj);
@@ -139,7 +138,7 @@ function App({ setModalVisible }) {
             </ScrollView>
           </React.Fragment>
         )}
-        <HStack position={"fixed"} bottom={0} bg="green.50">
+        <HStack position={"fixed"} bottom={0} bg="green.50" w={"full"}>
           <Box flex={1}></Box>
           <Button
             p={[2, 5]}
