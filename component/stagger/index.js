@@ -9,7 +9,9 @@ import {
 } from "native-base";
 import React from "react";
 
-import { MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import FlightIcon from "../../svg/flight";
+import HotelIcon from "../../svg/hotel";
+import DotIcon from "../../svg/dots";
 
 const Example = () => {
   const { isOpen, onToggle } = useDisclose();
@@ -58,7 +60,7 @@ const Example = () => {
             borderRadius="full"
             icon={
               <Icon
-                as={MaterialIcons}
+                as={FlightIcon}
                 size="6"
                 name="location-pin"
                 color="warmGray.50"
@@ -73,39 +75,9 @@ const Example = () => {
             borderRadius="full"
             icon={
               <Icon
-                as={MaterialCommunityIcons}
+                as={HotelIcon}
                 size="6"
                 name="microphone"
-                color="warmGray.50"
-              />
-            }
-          />
-          <IconButton
-            mb="4"
-            variant="solid"
-            bg="teal.400"
-            colorScheme="teal"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialCommunityIcons}
-                size="6"
-                name="video"
-                color="warmGray.50"
-              />
-            }
-          />
-          <IconButton
-            mb="4"
-            variant="solid"
-            bg="red.500"
-            colorScheme="red"
-            borderRadius="full"
-            icon={
-              <Icon
-                as={MaterialIcons}
-                size="6"
-                name="photo-library"
                 color="warmGray.50"
               />
             }
@@ -121,7 +93,7 @@ const Example = () => {
           bg="cyan.400"
           icon={
             <Icon
-              as={MaterialCommunityIcons}
+              as={DotIcon}
               size="6"
               name="dots-horizontal"
               color="warmGray.50"

@@ -1,7 +1,6 @@
 import { Text, ScrollView, Button, Modal, Stack } from "native-base";
 import React, { useState } from "react";
 import Wrapper from "./Wrapper";
-import Stagger from './component/stagger'
 
 const size = ["sm", "md", "lg", "xl"];
 
