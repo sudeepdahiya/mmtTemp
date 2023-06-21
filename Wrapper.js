@@ -31,23 +31,27 @@ function App({ setModalVisible }) {
 
   const get = async () => {
     const d = await getAncelleryData();
-
-    let parentObj = {};
-    let data = d.seatMapInfoSOA.smSeg;
-
-    Object.keys(data).map((val, i) => {
-      parentObj[val] = {
-        seatMapData: data[val].cLyt.deckMap.MAIN,
-        priceBucketList: data[val].pbl,
-        flightDetail: data[val].fDtl,
-      };
-    });
-
-    const tabList = Object.keys(parentObj);
-    setLoader(false);
-    setAncellery(parentObj);
-    setTabs(tabList);
-    setSelectedTab(tabList[0]);
+    if (d.seatMapInfoSOA) {
+      let parentObj = {};
+      let data = d.seatMapInfoSOA.smSeg;
+  
+      Object.keys(data).map((val, i) => {
+        parentObj[val] = {
+          seatMapData: data[val].cLyt.deckMap.MAIN,
+          priceBucketList: data[val].pbl,
+          flightDetail: data[val].fDtl,
+        };
+      });
+  
+      const tabList = Object.keys(parentObj);
+      setLoader(false);
+      setAncellery(parentObj);
+      setTabs(tabList);
+      setSelectedTab(tabList[0]);
+    } else {
+      console.error('API failed')
+    }
+    
   };
 
   useEffect(() => {

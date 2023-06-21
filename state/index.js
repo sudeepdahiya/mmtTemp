@@ -1,4 +1,4 @@
-import react from "react";
+
 
 
 const seatsReducer = (state, action) => {
@@ -24,4 +24,4 @@ const seatsReducer = (state, action) => {
   }
 }
 
-export
+export default seatsReducer;
